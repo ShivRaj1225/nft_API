@@ -2,6 +2,7 @@ const NFT = require('../models/nftModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const User = require('../models/userModel');
 
 exports.aliasTopNfts = (req, res, next) => {
   req.query.limit = '5';
@@ -11,7 +12,7 @@ exports.aliasTopNfts = (req, res, next) => {
 };
 
 exports.getAllNfts = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(NFT.find(), req.query)
+  const features = new APIFeatures(NFT.find().populate('author'), req.query)
     .filter()
     .sort()
     .limitFields()
@@ -28,8 +29,23 @@ exports.getAllNfts = catchAsync(async (req, res, next) => {
   });
 });
 
+
+
+exports.getNftsByAuthor = catchAsync(async (req, res, next) => {
+  const nfts = await NFT.find({ author: req.params.authorId }).populate(
+    'author'
+  );
+  res.status(200).json({
+    status: 'success',
+    results: nfts.length,
+    data: {
+      nfts
+    }
+  });
+});
+
 exports.getNft = catchAsync(async (req, res, next) => {
-  const nft = await NFT.findById(req.params.id);
+  const nft = await NFT.findById(req.params.id).populate('author');
   // Nft.findOne({ _id: req.params.id })
 
   if (!nft) {
@@ -45,6 +61,7 @@ exports.getNft = catchAsync(async (req, res, next) => {
 });
 
 exports.createNft = catchAsync(async (req, res, next) => {
+  req.body.author = req.user.id;
   const newNft = await NFT.create(req.body);
 
   res.status(201).json({

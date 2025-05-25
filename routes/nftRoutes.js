@@ -6,6 +6,11 @@ const router = express.Router();
 
 /// router.param('id', nftController.checkID);
 
+
+router.route('/author/:authorId').get(nftController.getNftsByAuthor);
+
+
+
 router
   .route('/top-5-cheap')
   .get(nftController.aliasTopNfts, nftController.getAllNfts);

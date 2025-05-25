@@ -101,3 +101,60 @@ exports.deleteUser = (req, res) => {
     message: 'This route is not yet defined!'
   });
 };
+
+exports.setAuthorProfile = catchAsync(async (req, res, next) => {
+  const {
+    walletAddress,
+    description,
+    profileImage,
+    email,
+    name,
+    website,
+    twitter,
+    instagram
+  } = req.body;
+
+  const user = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      walletAddress,
+      description,
+      profileImage,
+      email,
+      name,
+      website,
+      twitter,
+      instagram
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
+
+  if (!user) {
+    return next(new AppError('No user found to update profile', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user
+    }
+  });
+});
+
+exports.getMyProfile = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select('name email walletAddress description profileImage');
+
+  if (!user) {
+    return next(new AppError('User not found', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user
+    }
+  });
+});

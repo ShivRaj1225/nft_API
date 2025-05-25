@@ -16,8 +16,12 @@ router.patch(
   authController.updatePassword
 );
 
+router.patch('/set-author-profile', authController.protect, userController.setAuthorProfile);
+
 router.patch('/updateMe', authController.protect, userController.updateMe);
 router.delete('/deleteMe', authController.protect, userController.deleteMe);
+
+router.get('/getMyProfile', authController.protect, userController.getMyProfile);
 
 router
   .route('/')

@@ -77,6 +77,11 @@ const nftSchema = new mongoose.Schema(
     secretNft: {
       type: Boolean,
       default: false
+    },
+    author: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'An NFT must have an author']
     }
   },
   {
