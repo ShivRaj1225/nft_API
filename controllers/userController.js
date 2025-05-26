@@ -107,8 +107,6 @@ exports.setAuthorProfile = catchAsync(async (req, res, next) => {
     walletAddress,
     description,
     profileImage,
-    email,
-    name,
     website,
     twitter,
     instagram
@@ -120,8 +118,6 @@ exports.setAuthorProfile = catchAsync(async (req, res, next) => {
       walletAddress,
       description,
       profileImage,
-      email,
-      name,
       website,
       twitter,
       instagram
