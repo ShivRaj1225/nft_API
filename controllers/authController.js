@@ -122,7 +122,7 @@ exports.restrictTo = (...roles) => {
 };
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-  const BASE_URL = 'https://nft-api-gncm.onrender.com/api/v1/users';
+  const BASE_URL = 'https://nft-new-eight.vercel.app/';
   // 1) Get user based on POSTed email
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
