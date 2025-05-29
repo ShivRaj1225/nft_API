@@ -22,13 +22,13 @@ mongoose
   })
   .then(() => console.log('DB connection successful!'))
   .catch(err => {
-    console.error("MongoDB connection error:", err);
+    console.error('MongoDB connection error:', err);
   });
 
-  const port = process.env.PORT || 3000;
-  // app.listen(port, () => {
-  //   console.log(`App running on port ${port}...`);
-  // });
+const port = process.env.PORT || 3000;
+// app.listen(port, () => {
+//   console.log(`App running on port ${port}...`);
+// });
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });

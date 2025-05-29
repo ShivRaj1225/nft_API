@@ -122,6 +122,7 @@ exports.restrictTo = (...roles) => {
 };
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
+  const BASE_URL = 'https://nft-api-gncm.onrender.com/api/v1/users';
   // 1) Get user based on POSTed email
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
@@ -133,9 +134,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 3) Send it to user's email
-  const resetURL = `${
-    process.env.FRONTEND_URL
-  }/resetPassword?token=${resetToken}`;
+  const resetURL = `${BASE_URL}/resetPassword?token=${resetToken}`;
 
   const message = `Click on the link to reset password: ${resetURL}.\n If you didn't requested forgot password, please ignore this email!`;
 
