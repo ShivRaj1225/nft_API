@@ -20,7 +20,10 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
-  .then(() => console.log('DB connection successful!'));
+  .then(() => console.log('DB connection successful!'))
+  .catch(err => {
+    console.error("MongoDB connection error:", err);
+  });
 
   const port = process.env.PORT || 3000;
   // app.listen(port, () => {
