@@ -141,7 +141,9 @@ exports.setAuthorProfile = catchAsync(async (req, res, next) => {
 });
 
 exports.getMyProfile = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select('name email walletAddress description profileImage');
+  const user = await User.findById(req.user.id).select(
+    'name email walletAddress description profileImage website twitter instagram'
+  );
 
   if (!user) {
     return next(new AppError('User not found', 404));
@@ -154,3 +156,19 @@ exports.getMyProfile = catchAsync(async (req, res, next) => {
     }
   });
 });
+
+exports.getUserByWalletAddress = async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      walletAddress: req.params.walletAddress
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ status: 'success', user });
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch user' });
+  }
+};

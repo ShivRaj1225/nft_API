@@ -61,7 +61,9 @@ exports.getNft = catchAsync(async (req, res, next) => {
 });
 
 exports.createNft = catchAsync(async (req, res, next) => {
-  req.body.author = req.user.id;
+  // req.body.author = req.user.id;
+  // Only assign author if req.user exists (no crash if unauthenticated)
+if (req.user) req.body.author = req.user.id;
   const newNft = await NFT.create(req.body);
 
   res.status(201).json({

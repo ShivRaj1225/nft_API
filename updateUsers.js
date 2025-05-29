@@ -21,8 +21,20 @@ const updateUsers = async () => {
     );
 
     const result = await User.updateMany(
-      { profileImage: { $exists: false } },
-      { $set: { profileImage: '' } }
+      {
+        $or: [
+          { website: { $exists: false } },
+          { twitter: { $exists: false } },
+          { instagram: { $exists: false } }
+        ]
+      },
+      {
+        $set: {
+          website: '',
+          twitter: '',
+          instagram: ''
+        }
+      }
     );
 
     console.log('Updated users:', result);

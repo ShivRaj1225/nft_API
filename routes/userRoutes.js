@@ -16,6 +16,8 @@ router.patch(
   authController.updatePassword
 );
 
+router.get('/wallet/:walletAddress', userController.getUserByWalletAddress);
+
 router.patch('/set-author-profile', authController.protect, userController.setAuthorProfile);
 
 router.patch('/updateMe', authController.protect, userController.updateMe);

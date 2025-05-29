@@ -21,7 +21,7 @@ router.route('/monthly-plan/:year').get(nftController.getMonthlyPlan);
 router
   .route('/')
   .get(authController.protect, nftController.getAllNfts)
-  .post(nftController.createNft);
+  .post(authController.protect, nftController.createNft);
 
 router
   .route('/:id')

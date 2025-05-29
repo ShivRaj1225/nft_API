@@ -11,6 +11,8 @@ const cors = require('cors');
 const globalErrorHandler = require('./controllers/errorController');
 const nftsRouter = require('./routes/nftRoutes');
 const userRouter = require('./routes/userRoutes');
+const contactRouter = require('./routes/contactRoutes');
+const utilityRouter = require('./routes/utilityRoutes');
 
 const app = express();
 
@@ -23,13 +25,15 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+app.use('/api/v1/utility', utilityRouter);
+
 app.use(cors());
 
 // Limit requests from same API
 const limiter = rateLimit({
   max: 100,
-  windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!'
+  windowMs: 1 * 60 * 1000,
+  message: 'Too many requests from this IP, please try again in 1 minutes!'
 });
 app.use('/api', limiter);
 
@@ -69,6 +73,7 @@ app.use((req, res, next) => {
 // 3) ROUTES
 app.use('/api/v1/nfts', nftsRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/contact', contactRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

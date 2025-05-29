@@ -24,6 +24,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  website: {
+    type: String,
+    default: ''
+  },
+  twitter: {
+    type: String,
+    default: ''
+  },
+  instagram: {
+    type: String,
+    default: ''
+  },
   profileImage: {
     type: String,
     default: ''
